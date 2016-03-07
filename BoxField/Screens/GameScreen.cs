@@ -18,7 +18,13 @@ namespace BoxField
         //used to draw boxes on screen
         SolidBrush boxBrush = new SolidBrush(Color.White);
 
-        //TODO - create a list of Boxes
+        // create a list of Boxes
+        List<Box> boxes = new List<Box>();
+
+        int waitTime = 9;
+        Random randNum = new Random();
+        int boxNumbRound = 16;
+        int playerboxrounds = 0;
 
         public GameScreen()
         {
@@ -27,7 +33,8 @@ namespace BoxField
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            //TODO - create initial box object and add it to list of Boxes
+            Box b = new Box(500, 0);
+            boxes.Add(b);
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -100,16 +107,55 @@ namespace BoxField
 
         private void gameLoop_Tick(object sender, EventArgs e)
         {
-            //TODO - update position of each box
+            waitTime--;
 
-            //TODO - remove box from list if it is off screen
+            if (waitTime == 0)
+            {
+
+                Box b = new Box(randNum.Next(0, this.Width - 30), 0);
+                boxes.Add(b);
+                waitTime = 9;
+                boxBrush.Color = Color.FromArgb(randNum.Next(0, 256), randNum.Next(0, 256), randNum.Next(0, 256));
+                playerboxrounds++;
+            }
+            if (playerboxrounds == boxNumbRound)
+            {
+
+            }
+
+            if (playerboxrounds != boxNumbRound)
+            {
+
+            }
+
+            // update position of each box
+            for (int i = 0; i < boxes.Count(); i++)
+            {
+                boxes[i].y += 4;
+            }
+
+            
+
+            // remove box from list if it is off screen
+            if (boxes[0].y > 450)
+            {
+                boxes.RemoveAt(0);
+            }
+
 
             Refresh();
         }
 
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
-            //TODO - draw each box to the screen
+            // draw each box to the screen
+            foreach (var b in boxes)
+            {
+                e.Graphics.FillRectangle(boxBrush, b.x, b.y, 30, 30);
+            }
+            
+            e.Graphics.FillPolygon
+
         }
 
 
